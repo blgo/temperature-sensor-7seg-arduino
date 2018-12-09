@@ -1,9 +1,16 @@
 #include <OneWire.h>
+#include <TM1637Display.h>
 
 int DS18S20_Pin = 2; //DS18S20 Signal pin on digital 2
 
 //Temperature chip i/o
 OneWire ds(DS18S20_Pin);  // on digital pin 2
+
+// 7 seg display Module connection pins (Digital Pins)
+#define CLK 3
+#define DIO 4
+
+TM1637Display display(CLK, DIO);
 
 void setup(void) {
   Serial.begin(9600);
@@ -11,9 +18,17 @@ void setup(void) {
 
 void loop(void) {
   float temperature = getTemp();
+  
   Serial.println(temperature);
   
-  delay(100); //just here to slow down the output so it is easier to read
+  display.setBrightness(0x0f);
+  //void TM1637Display::showNumberDecEx(int num,
+  //  uint8_t dots,
+  //  bool leading_zero,
+  //  uint8_t length,
+  //  uint8_t pos)
+  display.showNumberDecEx(temperature * 100, (0x80 >> 1), true);
+  delay(1000); //just here to slow down the output so it is easier to read
   
 }
 
