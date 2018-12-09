@@ -19,16 +19,15 @@ void setup(void) {
 void loop(void) {
   float temperature = getTemp();
   
-  Serial.println(temperature);
+  display.setBrightness(0x01);
   
-  display.setBrightness(0x0f);
   //void TM1637Display::showNumberDecEx(int num,
   //  uint8_t dots,
   //  bool leading_zero,
   //  uint8_t length,
   //  uint8_t pos)
   display.showNumberDecEx(temperature * 100, (0x80 >> 1), true);
-  delay(1000); //just here to slow down the output so it is easier to read
+  delay(10000); 
   
 }
 
